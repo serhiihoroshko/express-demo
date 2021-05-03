@@ -18,7 +18,7 @@ app.get('/api/books', (req, res) => {
 
 app.post('/api/books', (req, res) => {
     const book = {
-        id: book.length + 1,
+        id: books.length + 1,
         name: req.body.name
     };
     books.push(book);
