@@ -1,6 +1,7 @@
 const express = require('express');
 const Joi = require('joi');
 const app = express();
+
 app.use(express.json());
 
 const books = [
@@ -18,17 +19,9 @@ app.get('/api/books', (req, res) => {
 });
 
 app.post('/api/books', (req, res) => {
-    const schema = Joi.object({
-        name: Joi.string().min(3).required()
-    });
+    const { error } = validateBooks(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-    const result = schema.validate(req.body);
-
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
-        return;
-    }
-    
     const book = {
         id: books.length + 1,
         name: req.body.name
@@ -37,6 +30,25 @@ app.post('/api/books', (req, res) => {
     res.send(book);
 });
 
+app.put('/api/books/:id', (req, res) => {
+    const book = books.find(c => c.id === parseInt(req.params.id));
+    if (!book) res.status(404).send('The book with given ID was not found');
+
+    const { error } = validateBooks(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    book.name = req.body.name;
+    res.send(book);
+});
+
+function validateBooks(book) {
+    const schema = Joi.object({
+        name: Joi.string().min(3).required()
+    });
+
+    return schema.validate(book);
+}
+
 app.get('/api/books/:id', (req, res) => {
     const book = books.find(c => c.id === parseInt(req.params.id));
     if (!book) res.status(404).send('The book with given ID was not found');
@@ -44,4 +56,4 @@ app.get('/api/books/:id', (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Lissening on port ${port}...`));
+app.listen(port, () => console.log(`Listening on port ${port}...`));
