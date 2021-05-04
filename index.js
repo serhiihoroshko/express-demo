@@ -1,13 +1,22 @@
-const express = require('express');
-const Joi = require('joi');
+import morgan from 'morgan';
+import helmet from 'helmet';
+import Joi from 'joi';
+import { log } from './logger.js';
+import express from 'express';
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(helmet());
+app.use(morgan('tiny'));
+
+app.use(log);
 
 const books = [
-    {id: 1, name: 'bookname1'},
-    {id: 2, name: 'bookname2'},
-    {id: 3, name: 'bookname3'},
+    {id: 1, name: 'bookName#1'},
+    {id: 2, name: 'bookName#2'},
+    {id: 3, name: 'bookName#3'},
 ];
 
 app.get('/', (req, res) => {

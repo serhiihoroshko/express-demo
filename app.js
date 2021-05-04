@@ -1,12 +1,12 @@
-const http = require('http');
+import { createServer } from 'http';
 
-const server = http.createServer((req, res) => {
+const server = createServer((req, res) => {
     if (req.url === '/') {
         res.write('Hello, World!');
         res.end();
     }
 
-    if (req.url === 'api/courses') {
+    if (req.url === '/api/books') {
         res.write(JSON.stringify([1, 2, 3]));
         res.end();
     }
