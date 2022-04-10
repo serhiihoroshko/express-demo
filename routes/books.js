@@ -3,9 +3,9 @@ import express from 'express';
 export const booksRouter = express.Router();
 
 const books = [
-    {id: 1, name: 'bookName#1'},
-    {id: 2, name: 'bookName#2'},
-    {id: 3, name: 'bookName#3'},
+    {id: 1, name: 'The Hobbit, or There and Back Again'},
+    {id: 2, name: 'The Fellowship of the Ring'},
+    {id: 3, name: 'The Two Towers'},
 ];
 
 booksRouter.get('/', (req, res) => {

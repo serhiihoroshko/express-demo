@@ -1,6 +1,7 @@
 import config from 'config';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import debug from 'debug';
 import { log } from './middleware/logger.js';
 import { booksRouter } from './routes/books.js';
 import { home } from './routes/home.js';
@@ -17,15 +18,15 @@ app.use(helmet());
 app.use('/api/books', booksRouter);
 app.use('/', home);
 
-console.log('Application Name: ' + config.get('name'));
-console.log('Mail Server: ' + config.get('mail.host'));
+debug('Application Name: ' + config.get('name'));
+debug('Mail Server: ' + config.get('mail.host'));
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'));
-    console.log('Morgan enabled...');
+    debug('Morgan enabled...');
 }
 
 app.use(log);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+app.listen(port, () => debug(`Listening on port ${port}...`));
