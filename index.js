@@ -5,8 +5,14 @@ import debug from 'debug';
 import { log } from './middleware/logger.js';
 import { booksRouter } from './routes/books.js';
 import { home } from './routes/home.js';
+import mongoose from 'mongoose';
 import express from 'express';
 const app = express();
+
+mongoose
+  .connect('mongodb://localhost/bookstore')
+  .then(() => debug('Connected to MongoDB...'))
+  .catch((err) => debug('Could not connect to MongoDB...'.err));
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -22,8 +28,8 @@ debug('Application Name: ' + config.get('name'));
 debug('Mail Server: ' + config.get('mail.host'));
 
 if (app.get('env') === 'development') {
-    app.use(morgan('tiny'));
-    debug('Morgan enabled...');
+  app.use(morgan('tiny'));
+  debug('Morgan enabled...');
 }
 
 app.use(log);

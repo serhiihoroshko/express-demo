@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-windows": "@powershell -Command $env:NODE_ENV='development'; $env:DEBUG='*, -express:router*'; node index.js"
+    "windowsDebug": "@powershell -Command $env:NODE_ENV='development'; $env:DEBUG='*'; node index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "express": "^4.17.3",
     "helmet": "^5.0.2",
     "joi": "^17.6.0",
+    "mongoose": "^6.3.0",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },
