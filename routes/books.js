@@ -1,4 +1,4 @@
-import { Book, validateBook } from '../models/books.js';
+import { Book, validateBook } from '../models/book.js';
 import express from 'express';
 export const book = express.Router();
 
