@@ -6,6 +6,7 @@ import { log } from './middleware/logger.js';
 import { book as books } from './routes/books.js';
 import { customer as customers } from './routes/customers.js';
 import { user as users } from './routes/users.js';
+import { auth } from './routes/auth.js';
 import { home } from './routes/home.js';
 import mongoose from 'mongoose';
 import express from 'express';
@@ -27,8 +28,7 @@ app.use('/', home);
 app.use('/api/books', books);
 app.use('/api/customers', customers);
 app.use('/api/users', users);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use('/api/auth', auth);
 
 debug('Application Name: ' + config.get('name'));
 debug('Mail Server: ' + config.get('mail.host'));
