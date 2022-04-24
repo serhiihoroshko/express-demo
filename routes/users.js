@@ -1,8 +1,14 @@
 import { User, validateUser } from '../models/user.js';
+import { auth } from '../middleware/auth.js';
 import express from 'express';
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 export const user = express.Router();
+
+user.get('/me', auth, async (req, res) => {
+  const user = await User.findById(req.user._id).select('-password');
+  res.send(user);
+});
 
 user.post('/', async (req, res) => {
   const { error } = validateUser(req.body);
@@ -17,5 +23,8 @@ user.post('/', async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
 
-  res.send(_.pick(user, ['_id', 'name', 'email']));
+  const token = user.generateAuthToken();
+  res
+    .header('x-auth-token', token)
+    .send(_.pick(user, ['_id', 'name', 'email']));
 });
