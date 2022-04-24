@@ -25,22 +25,10 @@ export const Book = mongoose.model(
         'Deception',
         'Coming of age',
       ],
-      lowercase: true,
-      trim: true,
     },
     author: String,
     tags: {
       type: Array,
-      validate: {
-        isAsync: true,
-        validator: function (tagValue, callback) {
-          setTimeout(() => {
-            const result = tagValue && tagValue.length > 0;
-            callback(result);
-          }, 1000);
-        },
-        message: 'A book should have at least one tag.',
-      },
     },
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
@@ -57,7 +45,12 @@ export const Book = mongoose.model(
 
 export function validateBook(book) {
   const schema = Joi.object({
-    name: Joi.string().min(3).required(),
+    name: Joi.string().min(4).required(),
+    category: Joi.string().required(),
+    author: Joi.string(),
+    tags: Joi.array(),
+    isPublished: Joi.boolean(),
+    price: Joi.number(),
   });
 
   return schema.validate(book);

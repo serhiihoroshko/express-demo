@@ -1,31 +1,37 @@
 import Joi from 'joi';
 import JoiPasswordComplexity from 'joi-password-complexity';
+import jwt from 'jsonwebtoken';
+import config from 'config';
 import mongoose from 'mongoose';
 
-export const User = mongoose.model(
-  'User',
-  new mongoose.Schema({
-    name: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 50,
-    },
-    email: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 255,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 255,
-    },
-  })
-);
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 50,
+  },
+  email: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
+  },
+});
+
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+  return token;
+}
+
+export const User = mongoose.model('User', userSchema);
 
 export function validateUser(user) {
   const schema = Joi.object({

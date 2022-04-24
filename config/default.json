@@ -1,3 +1,4 @@
 {
-    "name": "Express app"
+    "name": "Express app",
+    "jwtPrivateKey": "bookstore_jwtPrivateKey"
 }
