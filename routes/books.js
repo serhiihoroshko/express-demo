@@ -1,6 +1,7 @@
 import { Book, validateBook } from '../models/book.js';
 import { auth } from '../middleware/auth.js';
 import express from 'express';
+import { admin } from '../middleware/admin.js';
 export const book = express.Router();
 
 book.get('/', async (req, res) => {
@@ -42,7 +43,7 @@ book.put('/:id', auth, async (req, res) => {
   res.send(book);
 });
 
-book.delete('/:id', auth, async (req, res) => {
+book.delete('/:id', [auth, admin], async (req, res) => {
   const book = await Book.findByIdAndRemove(req.params.id);
 
   if (!book)
