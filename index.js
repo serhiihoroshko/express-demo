@@ -8,8 +8,10 @@ import { customer as customers } from './routes/customers.js';
 import { user as users } from './routes/users.js';
 import { auth } from './routes/auth.js';
 import { home } from './routes/home.js';
+import { error } from './middleware/error.js';
 import mongoose from 'mongoose';
 import express from 'express';
+
 const app = express();
 
 if (!config.get('jwtPrivateKey')) {
@@ -34,6 +36,7 @@ app.use('/api/books', books);
 app.use('/api/customers', customers);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+app.use(error);
 
 debug('Application Name: ' + config.get('name'));
 debug('Mail Server: ' + config.get('mail.host'));
