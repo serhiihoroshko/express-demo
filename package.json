@@ -22,7 +22,9 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.3.0",
     "morgan": "^1.10.0",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "winston": "^3.7.2",
+    "winston-mongodb": "^5.0.7"
   },
   "devDependencies": {
     "debug": "^4.3.4",

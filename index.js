@@ -2,6 +2,8 @@ import config from 'config';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import debug from 'debug';
+import winston from 'winston';
+import 'winston-mongodb';
 import { log } from './middleware/logger.js';
 import { book as books } from './routes/books.js';
 import { customer as customers } from './routes/customers.js';
@@ -11,8 +13,17 @@ import { home } from './routes/home.js';
 import { error } from './middleware/error.js';
 import mongoose from 'mongoose';
 import express from 'express';
-
 const app = express();
+
+winston.exceptions.handle(new winston.transports.File({ filename: 'logfile.log' }));
+
+winston.add(new winston.transports.File({ filename: 'logfile.log' }));
+winston.add(
+  new winston.transports.MongoDB({
+    db: 'mongodb://localhost/bookstore',
+    collection: 'errorlogs',
+  })
+);
 
 if (!config.get('jwtPrivateKey')) {
   console.error('FATAL ERROR: jwtPrivateKey is not defined.');
@@ -20,7 +31,7 @@ if (!config.get('jwtPrivateKey')) {
 }
 
 mongoose
-  .connect('mongodb://localhost/bookstore')
+  .connect('mongodb://localhost/bookstore', { useUnifiedTopology: true })
   .then(() => debug('Connected to MongoDB...'))
   .catch((err) => debug('Could not connect to MongoDB...'.err));
 
