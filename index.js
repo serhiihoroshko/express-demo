@@ -1,7 +1,6 @@
 import config from 'config';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import debug from 'debug';
 import { log } from './middleware/logger.js';
 import { book as books } from './routes/books.js';
 import { customer as customers } from './routes/customers.js';
@@ -13,6 +12,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 
 const app = express();
+const db = config.get('db');
 
 if (!config.get('jwtPrivateKey')) {
   console.error('FATAL ERROR: jwtPrivateKey is not defined.');
@@ -20,9 +20,9 @@ if (!config.get('jwtPrivateKey')) {
 }
 
 mongoose
-  .connect('mongodb://localhost/bookstore')
-  .then(() => debug('Connected to MongoDB...'))
-  .catch((err) => debug('Could not connect to MongoDB...'.err));
+  .connect(db)
+  .then(() => console.log(`Connected to ${db}...`))
+  .catch((err) => console.log(`Could not connect to ${db}...`.err));
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -38,15 +38,15 @@ app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use(error);
 
-debug('Application Name: ' + config.get('name'));
-debug('Mail Server: ' + config.get('mail.host'));
+console.log('Application Name: ' + config.get('name'));
+console.log('Mail Server: ' + config.get('mail.host'));
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));
-  debug('Morgan enabled...');
+  console.log('Morgan enabled...');
 }
 
 app.use(log);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => debug(`Listening on port ${port}...`));
+export const server = app.listen(port, () => console.log(`Listening on port ${port}...`));

@@ -5,8 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "windowsDebug": "@powershell -Command $env:NODE_ENV='development'; $env:DEBUG='*'; node index.js"
+    "test": "jest",
+    "windowsProduction": "@powershell -Command $env:NODE_ENV='production'; node index.js",
+    "windowsDebug": "@powershell -Command $env:NODE_ENV='development'; $env:DEBUG='*'; node index.js",
+    "windowsTest": "@powershell -Command $env:NODE_ENV='test'; node index.js"
   },
   "keywords": [],
   "author": "",
@@ -25,8 +27,9 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
-    "debug": "^4.3.4",
+    "jest": "^28.1.0",
     "nodemon": "^2.0.15",
-    "npm-check-updates": "^12.5.8"
+    "npm-check-updates": "^12.5.8",
+    "supertest": "^6.2.3"
   }
 }

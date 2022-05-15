@@ -1,0 +1,8 @@
+{
+  "name": "Express app - test",
+  "mail": {
+    "host": "test-mail-server"
+  },
+  "jwtPrivateKey": "12345",
+  "db": "mongodb://localhost/bookstore_tests"
+}

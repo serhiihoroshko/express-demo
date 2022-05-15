@@ -1,4 +1,5 @@
 {
     "name": "Express app",
-    "jwtPrivateKey": "bookstore_jwtPrivateKey"
+    "jwtPrivateKey": "bookstore_jwtPrivateKey",
+    "db": "mongodb://localhost/bookstore"
 }
